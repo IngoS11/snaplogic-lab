@@ -29,22 +29,9 @@ sysctl vm.max_map_count=2147483647
 echo "vm.max_map_count=2147483647" >> /etc/sysctl.conf
 sysctl fs.aio-max-nr=18446744073709551615
 echo "fs.aio-max-nr=18446744073709551615" >> /etc/sysctl.conf
-syctl kernel.shmmni=32768
-echo "kernel.shmmni=32768" >> /etc/sysctl.conf
 
 # start the docker Image once it is pulled. SAP wants you to use the interactive mode
 # of docker to be able to trigger a clean shutdown of the system and allow the HANA
 # database to write it's content to disk. Pleaes have a look at the docker container
 # documentation at https://hub.docker.com/r/sapse/abap-platform-trial
-#
-# to check if the system has enough memory when starting up use
-# >docker exec -it a4h free -h
-# to check if there is enough disk space avaiable for the docker containe use
-# >docker exec -it a4h df -h /
-# to check if the HANA database is running 
-# >docker exec -it a4h su - hdbadm -c "sapcontrol -nr 02 -function GetProcessList"
-# to check that the system is listening on the ports that are exposed
-# >netstat -tulpn
-# to list the processes running inside the container use
-# >docker exec -it a4h ps -ef
-#docker run --sysctl kernel.shmmni=32768 --stop-timeout 3600 -i --name a4h -h vhcala4hci -p 3200:3200 -p 3300:3300 -p 8443:8443 -p 30213:30213 -p 50000:50000 -p 50001:50001 sapse/abap-platform-trial:1909 -agree-to-sap-license
+docker run --sysctl kernel.shmmni=32768 --stop-timeout 3600 -i --name a4h -h vhcala4hci -p 3200:3200 -p 3300:3300 -p 8443:8443 -p 30213:30213 -p 50000:50000 -p 50001:50001 sapse/abap-platform-trial:1909 -agree-to-sap-license
