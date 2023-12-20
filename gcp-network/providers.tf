@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "ingos-sandbox-terraform-state"
-    prefix = "terraform/state"
+    prefix = "terraform/state-vpc"
   }
 
   required_providers {
@@ -13,8 +13,7 @@ terraform {
 }
 
 provider "google" {
-  project     = "ingos-sandbox"
-  region      = "us-west1"
-  credentials = "../gcp-terraform-key.json"
+  project    = var.gcp_project
+  region     = var.region
+  credentials = var.gcp_credentials_file
 }
-

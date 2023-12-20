@@ -1,0 +1,6 @@
+zone        = "<GCP Zone for the subnet and instances>"
+region      = "<GCP Region>"
+project_name    = "<A name you like to give the project. The value will be used to name objects in GCP"
+cidr_range  = "<CIDR Range you want to use in the subnet>"
+project     = "<GCP Project>"
+credentials_file = "../gcp-terraform-key.json"
