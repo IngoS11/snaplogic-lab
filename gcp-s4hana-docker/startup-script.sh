@@ -34,6 +34,6 @@ echo "fs.aio-max-nr=18446744073709551615" >> /etc/sysctl.conf
 # of docker to be able to trigger a clean shutdown of the system and allow the HANA
 # database to write it's content to disk. Pleaes have a look at the docker container
 # documentation at https://hub.docker.com/r/sapse/abap-platform-trial
-docker run --sysctl kernel.shmmni=32768 --stop-timeout 3600 --restart unless-stopped -i \ 
-    --name a4h -h vhcala4hci -p 3200:3200 -p 3300:3300 -p 8443:8443 -p 30213:30213 \
-    -p 50000:50000 -p 50001:50001 sapse/abap-platform-trial:1909 -agree-to-sap-license
+docker run --sysctl kernel.shmmni=32768 --stop-timeout 3600 --restart unless-stopped \
+     -i --name a4h -h vhcala4hci -p 3200:3200 -p 3300:3300 -p 8443:8443 -p 30213:30213 \
+     -p 50000:50000 -p 50001:50001 sapse/abap-platform-trial:1909 -agree-to-sap-license
