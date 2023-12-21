@@ -24,17 +24,15 @@ resource "google_compute_address" "sap_a4h_ip" {
   name = "${var.instance_name}-ip"
 }
 
-resource "random_id" "server" {
+resource "random_pet" "sap_a4h_server" {
   keepers = {
     # Generate a new id each time we switch to a new image
     image_name = var.image_name
   }
-
-  byte_length = 4
 }
 
 resource "google_compute_instance" "sap_a4h_dev" {
-  name         = "${var.instance_name}-${random_id.server.hex}"
+  name         = "${var.instance_name}-${random_pet.sap_a4h_server.id}"
   hostname     = "${var.host_name}.${var.gcp_project}.internal"
   machine_type = var.machine_type
   zone         = var.zone
