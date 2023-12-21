@@ -1,0 +1,67 @@
+#!/bin/bash
+apt update
+
+# install packages that may be of help during debugging sessions
+apt install net-tools ca-certificates -y
+
+# install dependencies for snaplogic groundplex
+apt install fontconfig zip -y
+
+# download the groundplex installer from the URL that was provided when crating the groundplex
+# in snapLogic
+curl -o groundplex.deb ${download_url}
+
+# install groundplex
+dpkg -i ./groundplex.deb 
+
+# TODO
+# check if the package installed successfully and if so remove the downloaded file
+# rm ./groundplex.deb
+
+# TODO
+# download the configuration file from snaplogic from the URL that was provided when creating the groundplex
+# in snapLogic. this currently results in an authentication error when you use the URL
+curl -o /opt/snaplogic/etc/groundplex.slpropz ${splz_url}
+
+# change ownership to snapuser
+chown snapuser:snapuser /opt/snaplogic/etc/groundplex.slpropz
+chmod 600 /opt/snaplogic/etc/groundplex.slpropz
+
+# TODO
+# get SAP Java Connector and install it to be able to connect to SAP via RFC. Unforunately the SAP JCO
+# is only accessible to people that have access to the SAP Download Center
+
+# Add environment variable in /etc/sysconfig/jcc for the groundplex to find java
+mkdir -p /etc/sysconfig/
+JDKPATH=$(find /opt/snaplogic/pkgs -maxdepth 1 -type d -iname "jdk-*")
+echo "export SL_JAVA_HOME=$JDKPATH/" > etc/sysconfig/jcc
+
+# make systemlimits larger for snapuser
+cat <<EOT >> /etc/security/limits.conf
+snapuser soft nproc 8192
+snapuser hard nproc 65536
+snapuser soft nofile 8192
+snapuser hard nofile 65536
+EOT
+
+# Create a systemd service file and enable the service for the groundplex to restart after system reboot
+cat > /lib/systemd/system/snaplogic.service <<EOL
+[Unit]
+Description=SnapLogic JVM
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/snaplogic/bin/jcc.sh start
+ExecReload=/opt/snaplogic/bin/jcc.sh restart
+ExecStop=/opt/snaplogic/bin/jcc.sh stop
+
+[Install]
+WantedBy=default.target
+EOL
+
+chmod 664 /lib/systemd/system/snaplogic.service
+
+systemctl daemon-reload
+systemctl enable snaplogic
+systemctl start snaplogic
