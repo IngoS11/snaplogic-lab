@@ -14,7 +14,7 @@ variable "instance_name" {
 variable "host_name" {
   description = "Name of the Instance for the SAP NW Dev System. Do not change default name due to RFC issues."
   type        = string
-  default     = "vhcalnplci"
+  default     = "vhcala4hci"
 }
 
 variable "machine_type" {

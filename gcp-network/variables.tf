@@ -21,3 +21,8 @@ variable "cidr_range" {
   description = "CIDR Range for the Subnetwork that is used for all systems"
   type        = string
 }
+
+variable "vpc_cidr_range" {
+  description = "CIDR Range for the entire VPC"
+  
+}
