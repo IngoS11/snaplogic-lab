@@ -1,6 +1,8 @@
-zone        = "<GCP Zone for the subnet and instances>"
-region      = "<GCP Region>"
-project_name    = "<A name you like to give the project. The value will be used to name objects in GCP"
-cidr_range  = "<CIDR Range you want to use in the subnet>"
-project     = "<GCP Project>"
+# copy this file to packer.pkrvars and remplace the placeholders with information from
+# your project
+zone             = "<GCP Zone for the subnet and instances>"
+region           = "<GCP Region>"
+project_name     = "<A name you like to give the project. The value will be used to name objects in GCP"
+cidr_range       = "<CIDR Range you want to use in the subnet>"
+project          = "<GCP Project>"
 credentials_file = "<GCP account json file>"
