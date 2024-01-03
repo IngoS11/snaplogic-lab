@@ -42,3 +42,6 @@ terraform.rc
 
 # Ignore GCP Authentication files
 gcp-*-key.json
+
+# Ignore all SnapLex Configuration Files
+**/*.slpropz
