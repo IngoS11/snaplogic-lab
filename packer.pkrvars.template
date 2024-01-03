@@ -1,0 +1,4 @@
+project_id = "<GCP Project>"
+zone       = "<GCP Zone for the subnet and instances>"
+download_url = "<download url from Snaplogic UI when creating a Snaplex"
+gcp_account_file = "<GCP account json file>"
