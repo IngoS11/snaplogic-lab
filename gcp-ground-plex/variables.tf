@@ -11,12 +11,6 @@ variable "instance_name" {
   default     = "snaplogic-groundplex"
 }
 
-variable "host_name" {
-  description = "Name of the Instance hosting the GroundPlex."
-  type        = string
-  default     = "snpplx1"
-}
-
 variable "machine_type" {
   description = "Instance Type to use for the GroundPlex"
   type        = string
@@ -39,10 +33,9 @@ variable "region" {
   type        = string
 }
 
-variable "image_name" {
+variable "groundplex_image_name" {
   description = "Image Name of the Operating System to use"
   type        = string
-  default     = "ubuntu-os-cloud/ubuntu-2304-lunar-amd64-v20231030"
 }
 
 variable "project_name" {
@@ -50,12 +43,7 @@ variable "project_name" {
   type        = string
 }
 
-variable "groundplex_download_url" {
-  description = "URL for downloading the groundplex provided when creating a groundplex in snapLogic"
-  type        = string
-}
-
-variable "groundplex_splz_url" {
-  description = "URL provided for the configuration file when creating a groundplex in snaplogic"
+variable "groundplex_slpropz" {
+  description = "Groundplex configuration file downloaded from SnapLogic to a local file"
   type        = string
 }
