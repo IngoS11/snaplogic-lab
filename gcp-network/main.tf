@@ -1,7 +1,7 @@
 
 # Create a VCP that hosts all machines to demo SnapLogic GroundPlex
 resource "google_compute_network" "vpc" {
-  name                            = "${var.project_name}-vpc" 
+  name                            = "${var.project_name}-vpc"
   delete_default_routes_on_create = false
   auto_create_subnetworks         = false
   routing_mode                    = "REGIONAL"
@@ -29,15 +29,15 @@ resource "google_compute_firewall" "all_in_vpc" {
 
   allow {
     protocol = "udp"
-    ports = ["0-65535"]
+    ports    = ["0-65535"]
   }
 
   allow {
     protocol = "tcp"
-    ports = ["0-65535"]
+    ports    = ["0-65535"]
   }
 
-  priority = "65534"
+  priority      = "65534"
   source_ranges = [var.vpc_cidr_range]
 }
 
@@ -51,6 +51,59 @@ resource "google_compute_firewall" "all_icmp_world" {
     protocol = "icmp"
   }
 
-  priority = "65534"
+  priority      = "65534"
   source_ranges = ["0.0.0.0/0"]
+}
+
+# create a could router for private instances to talk to the internet
+resource "google_compute_router" "router" {
+  name    = "${var.project_name}-router"
+  network = google_compute_network.vpc.id
+  bgp {
+    asn            = 64514
+    advertise_mode = "CUSTOM"
+  }
+}
+
+# create a nat gateway that will have a public IP to allow private instances
+# to talk to the internet
+resource "google_compute_router_nat" "nat_gateway" {
+  name                               = "${var.project_name}-nat"
+  router                             = google_compute_router.router.name
+  region                             = google_compute_router.router.region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+
+  subnetwork {
+    name                    = google_compute_subnetwork.subnet.name
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
+}
+
+resource "random_pet" "bastion_server" {
+  keepers = {
+    # Generate a new id each time we switch to a new image
+    image_name = var.bastion_image_name
+  }
+}
+
+resource "google_compute_instance" "bastion_server" {
+  name         = "${var.instance_name}-${random_pet.bastion_server.id}"
+  machine_type = var.machine_type
+  zone         = var.zone
+  tags         = ["bastion"]
+
+  boot_disk {
+    initialize_params {
+      image = random_pet.bastion_server.keepers.image_name
+    }
+  }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.subnet.self_link
+
+    access_config {
+    }
+  }
+
 }

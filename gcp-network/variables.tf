@@ -24,5 +24,23 @@ variable "cidr_range" {
 
 variable "vpc_cidr_range" {
   description = "CIDR Range for the entire VPC"
-  
+
+}
+
+variable "instance_name" {
+  description = "Bastion Host Instance Name"
+  type = string
+  default = "bastion"
+}
+
+variable "machine_type" {
+  description = "Instance Type to use for the bastion server"
+  type        = string
+  default     = "e2-micro"
+}
+
+variable "bastion_image_name" {
+  description = "Image Name of the Operating System to use"
+  type        = string
+  default     = "ubuntu-os-cloud/ubuntu-2304-lunar-amd64-v20231030"
 }
