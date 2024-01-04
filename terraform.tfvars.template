@@ -1,10 +1,17 @@
 # copy this file to packer.pkrvars and remplace the placeholders with information from
 # your project
-zone              = "<GCP Zone for the subnet and instances>"
-region            = "<GCP Region>"
-project_name      = "<A name you like to give the project. The value will be used to name objects in GCP"
-cidr_range        = "<CIDR Range you want to use in the subnet>"
-project           = "<GCP Project>"
-credentials_file  = "<GCP account json file>"
-image_name        = "<GCP Image Name of the groundplex image built by packer in gcp-images/gcp-groundplex-ubuntu>"
-groundplex_slpopz = "<Location to the .slpopz file downloaded from SnapLogic when creating the Snaplex"
+project                 = "<GCP Project>"
+region                  = "<GCP Region>"
+zone                    = "<GCP Zone for the subnet and instances>"
+gcp_project             = "<A name you like to give the project. The value will be used to name objects in GCP"
+gcp_credentials_file    = "<GCP account json file>"
+vpc_cidr_range          = "<CIDR Range you want to use in the VPC>"
+cidr_range              = "<CIDR Range you want to use in the subnet>"
+groundplex_slpropz      = "<Location to the .slpopz file downloaded from SnapLogic when creating the Snaplex"
+groundplex_image_name   = "<GCP Image Name of the groundplex image built by packer in gcp-images/gcp-groundplex-ubuntu>"
+
+
+
+
+
+
