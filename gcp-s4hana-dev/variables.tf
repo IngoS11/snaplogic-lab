@@ -39,7 +39,7 @@ variable "region" {
   type        = string
 }
 
-variable "image_name" {
+variable "s4hana_image_name" {
   description = "Image Name of the Operating System to use"
   type        = string
   default     = "ubuntu-os-cloud/ubuntu-2304-lunar-amd64-v20231030"

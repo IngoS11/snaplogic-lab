@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 apt update
 
 # install dependencies for docker
