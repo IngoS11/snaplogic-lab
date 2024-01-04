@@ -29,8 +29,8 @@ sudo dpkg -i ./groundplex.deb
 
 # Add environment variable in /etc/sysconfig/jcc for the groundplex to find java
 sudo mkdir -p /etc/sysconfig/
-JDKPATH=$(find /opt/snaplogic/pkgs -maxdepth 1 -type d -iname "jdk-*")
-sudo bash -c 'echo "export SL_JAVA_HOME=$JDKPATH/" > /etc/sysconfig/jcc'
+export JDKPATH=$(find /opt/snaplogic/pkgs -maxdepth 1 -type d -iname "jdk-*")
+sudo -E bash -c 'echo "export SL_JAVA_HOME=$JDKPATH/" > /etc/sysconfig/jcc'
 
 # make systemlimits larger for snapuser
 sudo bash -c 'cat <<EOT >> /etc/security/limits.conf
