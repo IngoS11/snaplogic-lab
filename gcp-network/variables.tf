@@ -44,3 +44,9 @@ variable "bastion_image_name" {
   type        = string
   default     = "ubuntu-os-cloud/ubuntu-2304-lunar-amd64-v20231030"
 }
+
+variable "create_bastion_server" {
+  description = "True if a basion host should be stood up?"
+  type = bool
+  default = false
+}

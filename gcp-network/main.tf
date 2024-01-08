@@ -80,6 +80,10 @@ resource "google_compute_router_nat" "nat_gateway" {
   }
 }
 
+locals {
+    bastion_count = (var.create_bastion_server == true ? 1 : 0 )
+}
+
 resource "random_pet" "bastion_server" {
   keepers = {
     # Generate a new id each time we switch to a new image
@@ -88,6 +92,7 @@ resource "random_pet" "bastion_server" {
 }
 
 resource "google_compute_instance" "bastion_server" {
+  count        = local.bastion_count
   name         = "${var.instance_name}-${random_pet.bastion_server.id}"
   machine_type = var.machine_type
   zone         = var.zone
