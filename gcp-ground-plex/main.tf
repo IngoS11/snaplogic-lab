@@ -57,7 +57,7 @@ resource "google_service_account" "snaplogic_ground_plex" {
   display_name = "Service account for ${var.instance_name} instnaces"
 }
 
-# grant the default service account permission to read the secret that contains
+# grant the service account permission to read the secret that contains
 # the Groundplex configuration
 resource "google_secret_manager_secret_iam_member" "snaplogic_ground_plex" {
 
