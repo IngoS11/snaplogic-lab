@@ -48,6 +48,7 @@ sudo chmod 664 /lib/systemd/system/snaplogic.service
 # Add /etc/services entries for the SAP gateway. These entries are required for
 # the SAP RFC Listener Snap to find the port of the SAP Gateway. Please add or
 # expand the list here when SAP system numbers other than 00 are needed
-sudo bash -c 'echo "# SAP Gateway entries for the SAP RFC Listener Snap to find the SAP Gateway" >> /etc/services'
-sudo bash -c 'echo "sapgw00         3300/tcp                        # SAP System Gateway Port" >> /etc/services'
-sudo bash -c 'echo "sapgw00s        4800/tcp                        # SAP System Gateway Security Port" >> /etc/services'
+sudo bash -c 'echo "# Services added for SAP" >> /etc/services'
+sudo bash -c 'echo "sapdp00         3200/tcp    # SAP System Dispatcher Port" >> /etc/services'
+sudo bash -c 'echo "sapgw00         3300/tcp    # SAP System Gateway Port" >> /etc/services'
+sudo bash -c 'echo "sapgw00s        4800/tcp    # SAP System Gateway Security Port" >> /etc/services'
