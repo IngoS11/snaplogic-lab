@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+# start the docker conatiner with Active MQ:
+docker run --detach --name activemq -p 61616:61616 -p 8161:8161 -e ARTEMIS_USER=${activemq_user} \
+     -e ARTEMIS_PASSWORD=${activemq_pass} apache/activemq-artemis:latest
+
+# start the docker container with Postgres
+docker run --detach --name postgres -p 5432:5432 -e POSTGRES_USER=${postgres_user} \
+       -e POSTGRES_PASSWORD=${postgres_pass} -e POSTGRES_DB=snaplogic postgres:latest
+
+# allow the databsae to build up
+sleep 2m
+
+# copy the pg_hba.conf file into the started docker container and then restart the docker
+# contianer for the configuration to take effect.
+docker cp /etc/postgresql/pg_hba.conf postgres:/var/lib/postgresql/data/pg_hba.conf
+docker restart postgres
+
+# start adminer for postgres administration
+docker run --detach --name adminer -p 8080:8080 adminer:latest
+
+# add a user for Samba with the home directory to be the samba share creaed in the image
+useradd ${smb_user} -d /opt/smbshare -g sambashare
+# change the owner of the samba share to be the user created in previous step
+chown ${smb_user}:sambashare -R /opt/smbshare
+# add a user to samba and restart service
+bash -c '(echo -e "${smb_pass}\n${smb_pass}") | smbpasswd -a -s ${smb_user}'
+systemctl restart smbd
