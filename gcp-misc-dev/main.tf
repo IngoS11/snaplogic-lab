@@ -66,3 +66,36 @@ resource "google_compute_instance" "snaplogic_misc_servers" {
     }
   }
 }
+
+resource "google_storage_bucket" "snaplogic_file_storage" {
+  name          = "${var.project_name}-snaplogic-no-public-access"
+  location      = "US"
+  force_destroy = true
+
+  public_access_prevention = "enforced"
+}
+
+# upload multiple CSV files containging sales agents
+resource "google_storage_bucket_object" "agent_data_1" {
+  name   = "agents/agent-data-1.csv"
+  source = "data/Agent_1.csv"
+  bucket = google_storage_bucket.snaplogic_file_storage.name
+}
+
+resource "google_storage_bucket_object" "agent_data_2" {
+  name   = "agents/agent-data-2.csv"
+  source = "data/Agent_2.csv"
+  bucket = google_storage_bucket.snaplogic_file_storage.name
+}
+
+resource "google_storage_bucket_object" "agent_data_3" {
+  name   = "agents/agent-data-3.csv"
+  source = "data/Agent_3.csv"
+  bucket = google_storage_bucket.snaplogic_file_storage.name
+}
+
+resource "google_storage_bucket_object" "agent_data_4" {
+  name   = "agents/agent-data-4.csv"
+  source = "data/Agent_4.csv"
+  bucket = google_storage_bucket.snaplogic_file_storage.name
+}
