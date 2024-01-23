@@ -30,7 +30,10 @@ EOT'
 sudo ufw allow samba
 # add a share for Samba
 sudo mkdir -p /opt/smbshare
+# copy all csv files to the samba share
 sudo mv /home/packer/*.csv /opt/smbshare/
+# copy all xml files to the samba share
+sudo mv /home/packer/*.xml /opt/smbshare/
 
 # disabe the Samba Active Directory service
 sudo systemctl disable samba

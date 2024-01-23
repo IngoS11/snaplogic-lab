@@ -69,6 +69,11 @@ build {
     destination = "/home/packer/pg_hba.conf"
   }
 
+  provisioner "file" {
+    source = "data/books.xml"
+    destination = "/home/packer/books.xml"
+  }
+
   provisioner "shell" {
     environment_vars = [
       "JMS_DOCKER_IMAGE=${var.jms_docker_image}",
