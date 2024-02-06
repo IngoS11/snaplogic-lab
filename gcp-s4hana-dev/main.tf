@@ -13,7 +13,7 @@ resource "google_compute_firewall" "sap-a4h" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "3200", "3300", "8443", "30213", "50000", "50001"]
+    ports    = ["22", "3200", "3300", "4800", "8443", "30213", "50000", "50001"]
   }
 
   source_ranges = ["0.0.0.0/0"]
