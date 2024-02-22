@@ -47,3 +47,9 @@ variable "groundplex_slpropz" {
   description = "Groundplex configuration file downloaded from SnapLogic to a local file"
   type        = string
 }
+
+variable "groundplex_count" {
+  description = "Number of Groundplexes to stand up. Max Number is based on avaiablity zones in region."
+  type = number
+  default = 1
+}

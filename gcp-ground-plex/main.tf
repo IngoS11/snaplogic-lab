@@ -11,6 +11,10 @@ data "google_compute_subnetwork" "subnet" {
   region = var.region
 }
 
+locals {
+  acz = slice(data.google_compute_zones.available.names, 0, var.groundplex_count)
+}
+
 resource "google_compute_firewall" "snaplogic_ground_plex" {
   name    = "${var.project_name}-snaplogic-groundplex-world"
   network = data.google_compute_network.vpc.self_link
@@ -78,7 +82,7 @@ resource "google_service_account_iam_member" "snaplogic_ground_plex" {
 }
 
 resource "random_pet" "snaplogic_ground_plex" {
-  count = length(data.google_compute_zones.available.names)
+  count = length(local.acz)
   keepers = {
     # Generate a new id each time we switch to a new image
     image_name = var.groundplex_image_name
@@ -87,10 +91,10 @@ resource "random_pet" "snaplogic_ground_plex" {
 
 # create a single instance of the groundplex
 resource "google_compute_instance" "snaplogic_ground_plex" {
-  count        = length(data.google_compute_zones.available.names)
+  count        = length(local.acz)
   name         = "${var.instance_name}-${random_pet.snaplogic_ground_plex[count.index].id}"
   machine_type = var.machine_type
-  zone         = data.google_compute_zones.available.names[count.index]
+  zone         = local.acz[count.index]
   tags         = ["snaplogic-groundplex"]
 
   metadata_startup_script = templatefile("${path.module}/startup-script.tftpl",
