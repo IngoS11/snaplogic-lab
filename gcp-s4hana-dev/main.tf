@@ -27,7 +27,7 @@ resource "google_compute_address" "sap_a4h_ip" {
 resource "random_pet" "sap_a4h_server" {
   keepers = {
     # Generate a new id each time we switch to a new image
-    image_name = var.image_name
+    image_name = var.s4hana_image_name
   }
 }
 
@@ -42,7 +42,7 @@ resource "google_compute_instance" "sap_a4h_dev" {
 
   boot_disk {
     initialize_params {
-      image = var.image_name
+      image = var.s4hana_image_name
       size  = var.boot_disk_size
     }
   }

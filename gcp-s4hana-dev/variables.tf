@@ -49,7 +49,3 @@ variable "project_name" {
   description = "Project Name used throughout the objects created"
   type        = string
 }
-
-
-
-
